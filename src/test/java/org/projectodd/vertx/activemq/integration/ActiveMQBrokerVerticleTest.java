@@ -10,7 +10,7 @@ import org.vertx.java.core.json.JsonObject;
 import org.vertx.testtools.TestVerticle;
 import org.vertx.testtools.VertxAssert;
 
-public class AcitveMQModuleTest extends TestVerticle {
+public class ActiveMQBrokerVerticleTest extends TestVerticle {
 
     @Override
     public void start() {
@@ -31,6 +31,7 @@ public class AcitveMQModuleTest extends TestVerticle {
             @Override
             public void handle(Message<JsonObject> event) {
                 VertxAssert.assertEquals("tcp://localhost:61616", event.body().getString("url"));
+                VertxAssert.assertEquals("org.projectodd.vertx.activemq.jmsclient.ActiveMQConnectionCreator", event.body().getString("connection_creator_class"));
                 VertxAssert.testComplete();
             }
         });
