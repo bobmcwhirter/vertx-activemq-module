@@ -12,12 +12,11 @@ public class ActiveMQModule extends Verticle {
         container.deployVerticle("org.projectodd.vertx.activemq.ActiveMQBrokerVerticle", new Handler<AsyncResult<String>>() {
             @Override
             public void handle(AsyncResult<String> event) {
-                container.deployVerticle("org.projectodd.vertx.activemq.ActiveMQConnectionVerticle", new Handler<AsyncResult<String>>() {
-                    @Override
-                    public void handle(AsyncResult<String> event) {
-                        startedResult.setResult(null);
-                    }
-                });
+                if (event.succeeded()) {
+                    startedResult.setResult(null);
+                } else {
+                    startedResult.setFailure( new Exception( "unable to start broker" ) );
+                }
             }
         });
     }
